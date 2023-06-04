@@ -19,7 +19,7 @@ const handleLogin = function () {
 </script>
 
 <template>
-    <div class="w-full h-screen flex justify-center items-center bg-fuchsia-2">
+    <div class="w-full h-screen flex-center bg-fuchsia-2">
         <el-form :model="loginForm" :rules="loginRules" class="bg-white w-[300px] p-[25px] rounded">
             <h3 class="text-center color-fuchsia">Yuki后台管理系统</h3>
             <el-form-item prop="username">
