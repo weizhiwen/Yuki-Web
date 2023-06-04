@@ -8,6 +8,9 @@ export default defineConfig({
         })
     ],
     shortcuts: {
-        
+        'flex-center': 'flex justify-center items-center',
+        'flex-between': 'flex justify-between items-center',
+        'flex-around': 'flex justify-around items-center',
+        'flex-vertical': 'flex flex-col justify-center items-center',
     }
 })
