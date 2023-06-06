@@ -1,6 +1,7 @@
 <script setup>
 
 import { Lock, UserFilled } from "@element-plus/icons-vue";
+import { login } from "@/api/auth";
 
 const loading = ref(false)
 const loginForm = ref({
@@ -14,7 +15,7 @@ const loginRules = ref({
 })
 
 const handleLogin = function () {
-    console.log(loginForm)
+    login(...loginForm)
 }
 </script>
 
