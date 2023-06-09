@@ -1,7 +1,8 @@
 <script setup>
 
-import { Lock, UserFilled } from "@element-plus/icons-vue";
-import { login } from "@/api/auth";
+import {Lock, UserFilled} from "@element-plus/icons-vue";
+import {login} from "@/api/auth";
+import router from "@/router";
 
 const loading = ref(false)
 const loginForm = ref({
@@ -10,12 +11,14 @@ const loginForm = ref({
 })
 
 const loginRules = ref({
-    username: [{ required: true, trigger: 'blur', message: '请输入您的账号' }],
-    password: [{ required: true, trigger: 'blur', message: '请输入您的密码' }]
+    username: [{required: true, trigger: 'blur', message: '请输入您的账号'}],
+    password: [{required: true, trigger: 'blur', message: '请输入您的密码'}]
 })
 
 const handleLogin = function () {
-    login(...loginForm)
+    login(loginForm.value.username, loginForm.value.password).then(res => {
+        router.push('/index')
+    })
 }
 </script>
 
@@ -24,17 +27,18 @@ const handleLogin = function () {
         <el-form :model="loginForm" :rules="loginRules" class="bg-white w-[300px] p-[25px] rounded">
             <h3 class="text-center color-fuchsia">Yuki后台管理系统</h3>
             <el-form-item prop="username">
-                <el-input v-model="loginForm.username" type="input" size="large" autocomplete="off" placeholder="用户名">
+                <el-input v-model="loginForm.username" type="input" size="large" autocomplete="off"
+                          placeholder="用户名">
                     <template #prepend>
-                        <el-button :icon="UserFilled" />
+                        <el-button :icon="UserFilled"/>
                     </template>
                 </el-input>
             </el-form-item>
             <el-form-item prop="password">
                 <el-input v-model="loginForm.password" type="input" size="large" autocomplete="off" placeholder="密码"
-                    @keyup.enter="handleLogin">
+                          @keyup.enter="handleLogin">
                     <template #prepend>
-                        <el-button :icon="Lock" />
+                        <el-button :icon="Lock"/>
                     </template>
                 </el-input>
             </el-form-item>

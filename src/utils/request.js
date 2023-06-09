@@ -1,10 +1,9 @@
 import router from '@/router/index.js'
-import { getToken } from '@/utfils/cookie.js'
+import {getToken} from '@/utils/cookie.js'
 import axios from 'axios'
-import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
+import {ElMessage, ElMessageBox, ElNotification} from 'element-plus'
 
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
-
 const service = axios.create({
     baseURL: import.meta.env.VITE_PROXY,
     timeout: 10000,
@@ -14,9 +13,9 @@ const service = axios.create({
 service.interceptors.request.use(req => {
     // 是否需要设置token
     const isToken = (req.headers || {}).isToken === false
-    if (req.needAuth && req.needAuth == fa) {
-
-    }
+    // if (req.needAuth && req.needAuth === false) {
+    //
+    // }
     if (getToken() && !isToken) {
         req.headers['Authorization'] = 'Bearer ' + getToken();
     }
@@ -24,7 +23,6 @@ service.interceptors.request.use(req => {
     //     if (req.params) {
 
     //     }
-    //     // TODO join url
     // } else if (req.method === 'post' || req.method === 'put' || req.method === 'patch') {
     //     if (req.headers 
     //     const requestId = {
@@ -34,6 +32,7 @@ service.interceptors.request.use(req => {
     //     }
 
     // }
+    return req
 }, error => {
     console.log(error)
     Promise.reject(error)
@@ -46,11 +45,10 @@ const errorCode = {
     '500': '系统未知错误，请联系管理员'
 }
 
-const isNeedLoginAgainShow = false;
+let isNeedLoginAgainShow = false;
 
 // response 拦截器
-service.interceptors.response.use(
-    res => {
+service.interceptors.response.use(res => {
         const code = res.data.code || 200
         const msg = errorCode[code] || res.data.msg || errorCode['default']
         if (code === 401) {
@@ -69,10 +67,10 @@ service.interceptors.response.use(
             }
             return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
         } else if (code === 500) {
-            ElMessage({ message: msg, type: 'error' })
+            ElMessage({message: msg, type: 'error'})
             return Promise.reject(new Error(msg))
-        } else if (code != 200) {
-            ElNotification.error({ title: msg })
+        } else if (code !== 200) {
+            ElNotification.error({title: msg})
             return Promise.reject('error')
         } else {
             return Promise.resolve(res.data)
@@ -80,15 +78,15 @@ service.interceptors.response.use(
     },
     error => {
         console.log('err' + error)
-        let { message } = error;
-        if (message == "Network Error") {
+        let {message} = error;
+        if (message === "Network Error") {
             message = "后端接口连接异常";
         } else if (message.includes("timeout")) {
             message = "系统接口请求超时";
         } else if (message.includes("Request failed with status code")) {
             message = "系统接口" + message.substr(message.length - 3) + "异常";
         }
-        ElMessage({ message: message, type: 'error', duration: 5 * 1000 })
+        ElMessage({message: message, type: 'error', duration: 5 * 1000})
         return Promise.reject(error)
     }
 )

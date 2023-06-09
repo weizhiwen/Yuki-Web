@@ -4,9 +4,19 @@ import { createRouter, createWebHistory } from "vue-router";
 export const constantRouters = [
     {
         path: "/",
-        component: () => import("@/views/login/index.vue"),
+        component: () => import("@/views/login/Index.vue"),
         hidden: true,
     },
+    {
+        path: "/login",
+        component: () => import("@/views/login/Index.vue"),
+        hidden: true,
+    },
+    {
+        path: "/index",
+        component: () => import("@/views/index/Index.vue"),
+        hidden: true,
+    }
 ];
 
 const router = createRouter({
