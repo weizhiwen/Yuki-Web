@@ -1,14 +1,9 @@
 <script setup>
-import {test} from "@/api/auth";
-
-const message = ref(null)
-onMounted(async () => {
-    message.value = await test()
-})
+import Layout from '@/layout/Index'
 </script>
 
 <template>
-    <h1>{{ message }}</h1>
+    <Layout/>
 </template>
 
 <style scoped>
