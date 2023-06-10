@@ -4,7 +4,7 @@ import { createRouter, createWebHistory } from "vue-router";
 export const constantRouters = [
     {
         path: "/",
-        component: () => import("@/views/login/Index.vue"),
+        component: () => import("@/views/index/Index.vue"),
         hidden: true,
     },
     {

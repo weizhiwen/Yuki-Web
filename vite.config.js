@@ -2,10 +2,11 @@ import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import UnoCSS from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import {ElementPlusResolver} from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
-import { defineConfig, loadEnv } from 'vite'
+import {defineConfig, loadEnv} from 'vite'
 import viteCompression from 'vite-plugin-compression'
+import ElementPlus from 'unplugin-element-plus/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig(({mode}) => {
@@ -13,6 +14,7 @@ export default defineConfig(({mode}) => {
     return {
         plugins: [
             vue(),
+            ElementPlus(),
             UnoCSS(),
             viteCompression(),
             AutoImport({

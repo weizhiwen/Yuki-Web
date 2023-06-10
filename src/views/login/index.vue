@@ -10,21 +10,31 @@ const loginForm = ref({
     password: '123456',
 })
 
+const loginRef = ref(null)
+
 const loginRules = ref({
     username: [{required: true, trigger: 'blur', message: '请输入您的账号'}],
     password: [{required: true, trigger: 'blur', message: '请输入您的密码'}]
 })
 
 const handleLogin = function () {
-    login(loginForm.value.username, loginForm.value.password).then(res => {
-        router.push('/index')
+    loginRef.value.validate(valid => {
+        if (valid) {
+            loading.value = true
+            login(loginForm.value).then(() => {
+                router.push('/index')
+            }).catch(() => {
+                loading.value = false
+            })
+        }
     })
+
 }
 </script>
 
 <template>
     <div class="w-full h-screen flex-center bg-fuchsia-2">
-        <el-form :model="loginForm" :rules="loginRules" class="bg-white w-[300px] p-[25px] rounded">
+        <el-form ref="loginRef" :model="loginForm" :rules="loginRules" class="bg-white w-[300px] p-[25px] rounded">
             <h3 class="text-center color-fuchsia">Yuki后台管理系统</h3>
             <el-form-item prop="username">
                 <el-input v-model="loginForm.username" type="input" size="large" autocomplete="off"

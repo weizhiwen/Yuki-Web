@@ -49,8 +49,9 @@ let isNeedLoginAgainShow = false;
 
 // response 拦截器
 service.interceptors.response.use(res => {
-        const code = res.data.code || 200
-        const msg = errorCode[code] || res.data.msg || errorCode['default']
+        let result = res.data;
+        const code = result.code || 200
+        const msg = errorCode[code] || result.msg || errorCode['default']
         if (code === 401) {
             if (!isNeedLoginAgainShow) {
                 isNeedLoginAgainShow = true;
@@ -58,7 +59,7 @@ service.interceptors.response.use(res => {
                     confirmButtonText: '重新登录', cancelButtonText: '取消', type: 'warning'
                 }).then(() => {
                     isNeedLoginAgainShow = false;
-                    router.push("/login");
+                    router.push('/login')
                     // 路由到登录页面
                 }).catch(() => {
                     isNeedLoginAgainShow = false;
@@ -73,7 +74,7 @@ service.interceptors.response.use(res => {
             ElNotification.error({title: msg})
             return Promise.reject('error')
         } else {
-            return Promise.resolve(res.data)
+            return Promise.resolve(result.data)
         }
     },
     error => {
