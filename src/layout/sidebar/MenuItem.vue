@@ -16,7 +16,7 @@ const hasChildren = (item) => {
         <template #title>
             {{item.name}}
         </template>
-        <SideBarItem
+        <MenuItem
             v-for="(child, i) in item.children"
             :key="i + child.index"
             :item="child"

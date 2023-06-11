@@ -1,8 +1,8 @@
 <script setup>
-import MenuItem from "./MenuItem.vue";
-import Logo from "./Logo.vue";
 
-const menuRouters = [
+import MenuItem from "@/layout/sidebar/MenuItem.vue";
+
+const sideBarRouters = [
     {
         name: '首页',
         index: 'home',
@@ -97,11 +97,14 @@ const menuRouters = [
 </script>
 
 <template>
-    <Logo class="h-50px"/>
-    <el-scrollbar class="menu-scrollbar calc(100% - 50px)">
-        <el-menu mode="vertical">
+    <el-scrollbar
+        wrap-class=" wrap-class"
+    >
+        <el-menu
+            mode="vertical"
+        >
             <MenuItem
-                v-for="(item, i) in menuRouters"
+                v-for="(item, i) in sideBarRouters"
                 :key="i + item.index"
                 :item="item"
             />
@@ -110,4 +113,5 @@ const menuRouters = [
 </template>
 
 <style scoped>
+
 </style>
