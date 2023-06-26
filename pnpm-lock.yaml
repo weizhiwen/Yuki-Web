@@ -8,6 +8,12 @@ dependencies:
   '@element-plus/icons-vue':
     specifier: ^2.1.0
     version: 2.1.0(vue@3.3.4)
+  '@phosphor-icons/vue':
+    specifier: ^2.1.4
+    version: 2.1.4(vue@3.3.4)
+  '@vueuse/core':
+    specifier: ^10.1.2
+    version: 10.1.2(vue@3.3.4)
   axios:
     specifier: ^1.4.0
     version: 1.4.0
@@ -45,7 +51,7 @@ devDependencies:
     version: 0.52.7(postcss@8.4.24)(vite@4.3.9)
   unplugin-auto-import:
     specifier: ^0.16.4
-    version: 0.16.4
+    version: 0.16.4(@vueuse/core@10.1.2)
   unplugin-element-plus:
     specifier: ^0.7.1
     version: 0.7.1
@@ -395,6 +401,15 @@ packages:
       fastq: 1.15.0
     dev: true
 
+  /@phosphor-icons/vue@2.1.4(vue@3.3.4):
+    resolution: {integrity: sha512-evV8o1+y9qStbrI2vK3zXAYMqSuFUv/VSth3XMS9Q9qje0bLNZ2V8t6i2JDke+UMbt+OCB2OEn7jxe+xQFIMJw==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      vue: '>=3.2.39'
+    dependencies:
+      vue: 3.3.4
+    dev: false
+
   /@polka/url@1.0.0-next.21:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
     dev: true
@@ -434,6 +449,9 @@ packages:
   /@types/web-bluetooth@0.0.16:
     resolution: {integrity: sha512-oh8q2Zc32S6gd/j50GowEjKLoOVOwHP/bWVjKJInBwQqdOYMdPrf1oVlelTlyfFK3CKxL1uahMDAr+vy8T7yMQ==}
     dev: false
+
+  /@types/web-bluetooth@0.0.17:
+    resolution: {integrity: sha512-4p9vcSmxAayx72yn70joFoL44c9MO/0+iVEBIQXe3v2h2SiAsEIo/G5v6ObFWvNKRFjbrVadNf9LqEEZeQPzdA==}
 
   /@unocss/astro@0.52.7(vite@4.3.9):
     resolution: {integrity: sha512-jGm3sVB6AU3A1vXJskCdG2kUw1aRdg2fV60nILCBiRmj7SIlbMTXEHrz864AaleGVnxTiV7oGL4P1DfDJ3tQSA==}
@@ -712,6 +730,17 @@ packages:
   /@vue/shared@3.3.4:
     resolution: {integrity: sha512-7OjdcV8vQ74eiz1TZLzZP4JwqM5fA94K6yntPS5Z25r9HDuGNzaGdgvwKYq6S+MxwF0TFRwe50fIR/MYnakdkQ==}
 
+  /@vueuse/core@10.1.2(vue@3.3.4):
+    resolution: {integrity: sha512-roNn8WuerI56A5uiTyF/TEYX0Y+VKlhZAF94unUfdhbDUI+NfwQMn4FUnUscIRUhv3344qvAghopU4bzLPNFlA==}
+    dependencies:
+      '@types/web-bluetooth': 0.0.17
+      '@vueuse/metadata': 10.1.2
+      '@vueuse/shared': 10.1.2(vue@3.3.4)
+      vue-demi: 0.14.5(vue@3.3.4)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+
   /@vueuse/core@9.13.0(vue@3.3.4):
     resolution: {integrity: sha512-pujnclbeHWxxPRqXWmdkKV5OX4Wk4YeK7wusHqRwU0Q7EFusHoqNA/aPhB6KCh9hEqJkLAJo7bb0Lh9b+OIVzw==}
     dependencies:
@@ -724,9 +753,20 @@ packages:
       - vue
     dev: false
 
+  /@vueuse/metadata@10.1.2:
+    resolution: {integrity: sha512-3mc5BqN9aU2SqBeBuWE7ne4OtXHoHKggNgxZR2K+zIW4YLsy6xoZ4/9vErQs6tvoKDX6QAqm3lvsrv0mczAwIQ==}
+
   /@vueuse/metadata@9.13.0:
     resolution: {integrity: sha512-gdU7TKNAUVlXXLbaF+ZCfte8BjRJQWPCa2J55+7/h+yDtzw3vOoGQDRXzI6pyKyo6bXFT5/QoPE4hAknExjRLQ==}
     dev: false
+
+  /@vueuse/shared@10.1.2(vue@3.3.4):
+    resolution: {integrity: sha512-1uoUTPBlgyscK9v6ScGeVYDDzlPSFXBlxuK7SfrDGyUTBiznb3mNceqhwvZHjtDRELZEN79V5uWPTF1VDV8svA==}
+    dependencies:
+      vue-demi: 0.14.5(vue@3.3.4)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
 
   /@vueuse/shared@9.13.0(vue@3.3.4):
     resolution: {integrity: sha512-UrnhU+Cnufu4S6JLCPZnkWh0WwZGUp72ktOF2DFptMlOs3TOdVv8xJN53zhHGARmVOsz5KqOls09+J1NR6sBKw==}
@@ -1584,7 +1624,7 @@ packages:
       - vite
     dev: true
 
-  /unplugin-auto-import@0.16.4:
+  /unplugin-auto-import@0.16.4(@vueuse/core@10.1.2):
     resolution: {integrity: sha512-xdgBa9NAS3JG8HjkAZHSbGSMlrjKpaWKXGUzaF6RzEtr980RCl1t0Zsu0skUInNYrEQfqaHc7aGWPv41DLTK/w==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -1598,6 +1638,7 @@ packages:
     dependencies:
       '@antfu/utils': 0.7.4
       '@rollup/pluginutils': 5.0.2
+      '@vueuse/core': 10.1.2(vue@3.3.4)
       local-pkg: 0.4.3
       magic-string: 0.30.0
       minimatch: 9.0.1
@@ -1719,7 +1760,6 @@ packages:
         optional: true
     dependencies:
       vue: 3.3.4
-    dev: false
 
   /vue-router@4.2.2(vue@3.3.4):
     resolution: {integrity: sha512-cChBPPmAflgBGmy3tBsjeoe3f3VOSG6naKyY5pjtrqLGbNEXdzCigFUHgBvp9e3ysAtFtEx7OLqcSDh/1Cq2TQ==}

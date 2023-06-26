@@ -10,10 +10,10 @@ import Main from './main/Index'
             <SideBar/>
         </el-aside>
         <el-container class="main-container">
-            <el-header class="header h-50px">
+            <el-header class="header h-30px">
                 <Header/>
             </el-header>
-            <el-main class="main calc(100vh - 50px)">
+            <el-main class="main calc(100% - 30px)">
                 <Main/>
             </el-main>
         </el-container>
