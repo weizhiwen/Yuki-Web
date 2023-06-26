@@ -99,7 +99,10 @@ const menuRouters = [
 <template>
     <Logo class="h-50px"/>
     <el-scrollbar class="menu-scrollbar calc(100% - 50px)">
-        <el-menu mode="vertical">
+        <el-menu
+            router
+            :default-active="$route.path"
+        >
             <MenuItem
                 v-for="(item, i) in menuRouters"
                 :key="i + item.index"

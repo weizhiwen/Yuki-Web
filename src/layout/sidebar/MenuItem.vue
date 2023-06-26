@@ -12,7 +12,7 @@ const hasChildren = (item) => {
 </script>
 
 <template>
-    <el-sub-menu v-if="hasChildren(item)" :index=item.index>
+    <el-sub-menu v-if="hasChildren(item)" :index="item.index">
         <template #title>
             {{item.name}}
         </template>

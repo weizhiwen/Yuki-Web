@@ -6,11 +6,11 @@ import Main from './main/Index'
 
 <template>
     <el-container class="app-wrapper">
-        <el-aside class="sidebar-container h-full">
+        <el-aside class="sidebar-container h-full" width="200px">
             <SideBar/>
         </el-aside>
         <el-container class="main-container">
-            <el-header class="header h-30px">
+            <el-header class="header h-30px shadow">
                 <Header/>
             </el-header>
             <el-main class="main calc(100% - 30px)">

@@ -5,18 +5,23 @@ export const constantRouters = [
     {
         path: "/",
         component: () => import("@/views/index/Index.vue"),
-        hidden: true,
+        children: [
+            {
+                path: "home",
+                component: () => import("@/views/home/Index.vue"),
+            },
+            {
+                path: "dict",
+                component: () => import("@/views/dict/Index.vue"),
+            }
+        ]
     },
     {
         path: "/login",
         component: () => import("@/views/login/Index.vue"),
         hidden: true,
     },
-    {
-        path: "/index",
-        component: () => import("@/views/index/Index.vue"),
-        hidden: true,
-    }
+
 ];
 
 const router = createRouter({

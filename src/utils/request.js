@@ -13,25 +13,9 @@ const service = axios.create({
 service.interceptors.request.use(req => {
     // 是否需要设置token
     const isToken = (req.headers || {}).isToken === false
-    // if (req.needAuth && req.needAuth === false) {
-    //
-    // }
     if (getToken() && !isToken) {
         req.headers['Authorization'] = 'Bearer ' + getToken();
     }
-    // if (req.method === 'get') {
-    //     if (req.params) {
-
-    //     }
-    // } else if (req.method === 'post' || req.method === 'put' || req.method === 'patch') {
-    //     if (req.headers 
-    //     const requestId = {
-    //         url: req.url,
-    //         data: typeof req.data === 'object' ? JSON.stringify(req.data) : req.data,
-    //         time: new Date().getTime()
-    //     }
-
-    // }
     return req
 }, error => {
     console.log(error)
