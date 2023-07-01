@@ -22,7 +22,7 @@ const handleLogin = function () {
         if (valid) {
             loading.value = true
             login(loginForm.value).then(() => {
-                router.push('/index')
+                router.push('/home')
             }).catch(() => {
                 loading.value = false
             })
