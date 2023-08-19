@@ -17,7 +17,7 @@ const loginRules = ref({
     password: [{required: true, trigger: 'blur', message: '请输入您的密码'}]
 })
 
-const handleLogin = function () {
+const handleLogin = () => {
     loginRef.value.validate(valid => {
         if (valid) {
             loading.value = true

@@ -42,6 +42,7 @@ const handleSizeChange = (val) => {
 </script>
 <template>
     <el-pagination
+        v-show="total > 0"
         class="justify-end"
         v-model:current-page="currentPage"
         v-model:page-size="pageSize"

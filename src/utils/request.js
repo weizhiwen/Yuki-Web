@@ -35,7 +35,7 @@ let isNeedLoginAgainShow = false;
 service.interceptors.response.use(res => {
         let result = res.data;
         const code = result.code || 200
-        const msg = errorCode[code] || result.msg || errorCode['default']
+        const msg = result.message || errorCode[code]
         if (code === 401) {
             if (!isNeedLoginAgainShow) {
                 isNeedLoginAgainShow = true;

@@ -1,12 +1,11 @@
 import request from "@/utils/request";
 import {setToken} from "@/utils/cookie";
 
-export function login(loginForm) {
-    const data = {...loginForm}
+export function login(param) {
     return new Promise((resolve, reject) => {
         request.post(
             '/auth/login',
-            data,
+            param,
             {
                 headers: {isToken: false}
             }
