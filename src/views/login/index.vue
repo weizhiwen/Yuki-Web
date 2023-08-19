@@ -6,14 +6,14 @@ import router from "@/router";
 
 const loading = ref(false)
 const loginForm = ref({
-    username: 'yuki',
+    loginName: '17639600474',
     password: '123456',
 })
 
 const loginRef = ref(null)
 
 const loginRules = ref({
-    username: [{required: true, trigger: 'blur', message: '请输入您的账号'}],
+    loginName: [{required: true, trigger: 'blur', message: '请输入您的手机号或邮箱'}],
     password: [{required: true, trigger: 'blur', message: '请输入您的密码'}]
 })
 
@@ -36,8 +36,8 @@ const handleLogin = function () {
     <div class="w-full h-screen flex-center bg-fuchsia-2">
         <el-form ref="loginRef" :model="loginForm" :rules="loginRules" class="bg-white w-[300px] p-[25px] rounded">
             <h3 class="text-center color-fuchsia">Yuki后台管理系统</h3>
-            <el-form-item prop="username">
-                <el-input v-model="loginForm.username" type="input" size="large" autocomplete="off"
+            <el-form-item prop="loginName">
+                <el-input v-model="loginForm.loginName" type="input" size="large" autocomplete="off"
                           placeholder="用户名">
                     <template #prepend>
                         <el-button :icon="UserFilled"/>
