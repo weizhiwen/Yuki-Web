@@ -47,10 +47,22 @@ export function detail(id) {
     })
 }
 
-export function del(id) {
+export function deleteOne(id) {
     return new Promise((resolve, reject) => {
         request.delete(
             `/dict-types/${id}`,
+        ).then(data => {
+            resolve()
+        }).catch(error => {
+            reject(error)
+        })
+    })
+}
+
+export function deleteMultiple(ids) {
+    return new Promise((resolve, reject) => {
+        request.delete(
+            `/dict-types/${ids.join(',')}`,
         ).then(data => {
             resolve()
         }).catch(error => {

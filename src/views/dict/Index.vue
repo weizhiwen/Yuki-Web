@@ -1,5 +1,5 @@
 <script setup>
-import {create, detail, search, update, del} from "@/api/dict";
+import {create, deleteMultiple, deleteOne, detail, search, update} from "@/api/dict";
 import Pagination from '@/components/pagination/Index.vue'
 import {ElMessage} from "element-plus";
 
@@ -40,6 +40,8 @@ const paramRules = ref({
     name: [{required: true, trigger: 'blur', message: '请输入名称'}]
 })
 
+const selectedIds = ref([])
+
 onMounted(async () => {
     await getList()
 })
@@ -66,10 +68,30 @@ const handleOnUpdate = (id) => {
 }
 
 const handleOnDelete = async (id) => {
-    del(id).then(()=>{
+    await deleteOne(id).then(() => {
         ElMessage({message: "删除成功", type: 'success'})
+    }).finally(() => {
+        getList()
     })
+}
+
+const handleOnRefresh = async () => {
     await getList()
+}
+
+const handleSelectionChange = (array) => {
+    selectedIds.value = []
+    for (let item of array) {
+        selectedIds.value.push(item.id)
+    }
+}
+
+const handleOnDeleteMultiple = async () => {
+    await deleteMultiple(selectedIds.value).then(() => {
+        ElMessage({message: "删除成功", type: 'success'})
+    }).finally(() => {
+        getList()
+    })
 }
 
 const handleOnSave = async () => {
@@ -113,15 +135,17 @@ const handleDrawerClose = () => {
         </el-form>
         <el-row class="mb-20px">
             <el-button @click="handleOnCreate">添加</el-button>
-            <el-button>删除</el-button>
-            <el-button>导入</el-button>
-            <el-button>导出</el-button>
-            <el-button>刷新</el-button>
+            <el-button :disabled="selectedIds == false" @click="handleOnDeleteMultiple">删除</el-button>
+            <!--            <el-button>导入</el-button>-->
+            <!--            <el-button>导出</el-button>-->
+            <el-button @click="handleOnRefresh">刷新</el-button>
         </el-row>
         <el-table
             class="mb-20px"
             v-loading="table.loading"
-            :data="table.list">
+            :data="table.list"
+            @selection-change="handleSelectionChange"
+        >
             <el-table-column type="selection" width="40"/>
             <el-table-column
                 prop="parent"
