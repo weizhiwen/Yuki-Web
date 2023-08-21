@@ -30,13 +30,13 @@ const formRef = ref(null)
 const formParam = ref({
     id: null,
     parentId: null,
-    code: null,
+    type: null,
     name: null,
     description: null,
 })
 
 const paramRules = ref({
-    code: [{required: true, trigger: 'blur', message: '请输入编码'}],
+    type: [{required: true, trigger: 'blur', message: '请输入类型'}],
     name: [{required: true, trigger: 'blur', message: '请输入名称'}]
 })
 
@@ -122,7 +122,7 @@ const handleDrawerClose = () => {
 <template>
     <div>
         <el-form inline>
-            <el-form-item label="编码">
+            <el-form-item label="类型">
                 <el-input/>
             </el-form-item>
             <el-form-item label="名称">
@@ -155,8 +155,8 @@ const handleDrawerClose = () => {
                 </template>
             </el-table-column>
             <el-table-column
-                prop="code"
-                label="编码">
+                prop="type"
+                label="类型">
             </el-table-column>
             <el-table-column
                 prop="name"
@@ -200,8 +200,8 @@ const handleDrawerClose = () => {
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="编码" prop="code">
-                <el-input v-model="formParam.code"/>
+            <el-form-item label="类型" prop="type">
+                <el-input v-model="formParam.type"/>
             </el-form-item>
             <el-form-item label="名称" prop="name">
                 <el-input v-model="formParam.name"/>
