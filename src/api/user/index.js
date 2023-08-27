@@ -4,7 +4,7 @@ import {setToken} from "@/utils/cookie";
 export function login(param) {
     return new Promise((resolve, reject) => {
         request.post(
-            '/auth/login',
+            '/user/login',
             param,
             {
                 headers: {isToken: false}
@@ -19,5 +19,5 @@ export function login(param) {
 }
 
 export function test() {
-    return request.get('/auth/test')
+    return request.get('/user/test')
 }

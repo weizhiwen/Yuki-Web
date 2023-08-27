@@ -2,18 +2,20 @@
 import Pagination from "@/components/pagination/Index.vue";
 import {create, deleteMultiple, deleteOne, detail, search, update} from "@/api/dict";
 import {ElMessage} from "element-plus";
+import {Search} from "@element-plus/icons-vue";
 
 const searchFormRef = ref(null)
 
 const searchParam = ref({
-    type: undefined,
-    name: undefined,
+    keyword: undefined,
     builtin: false,
 })
+
 const page = ref({
     page: 0,
     size: 20
 })
+
 const table = ref({
     loading: false,
     count: 0,
@@ -36,6 +38,7 @@ const formParam = ref({
     type: null,
     name: null,
     description: null,
+    enabled: true
 })
 
 const paramRules = ref({
@@ -44,6 +47,10 @@ const paramRules = ref({
 })
 
 const selectedIds = ref([])
+
+const deleteDisabled = computed(() => {
+    return selectedIds.value.length === 0
+})
 
 onMounted(async () => {
     await getList()
@@ -125,30 +132,48 @@ const handleSearchReset = async () => {
     searchFormRef.value.resetFields()
     await getList();
 }
+
+const parentType = ref({
+    keyword: '',
+    loading: false,
+    list: []
+})
+
+const getParentTypeList = (query) => {
+    search({
+        keyword: query,
+    }).then((res) => {
+        parentType.value.list = res.list
+    })
+}
+
+const handleRemoteMethod = (query) => {
+    if (query) {
+        getParentTypeList(query)
+    }
+}
+
 </script>
 
 <template>
     <div>
-        <el-row class="mb-20px">
-            <el-space>
-                <el-form ref="searchFormRef" :model="searchParam" inline>
-                    <el-form-item label="类型" prop="type">
-                        <el-input v-model="searchParam.type"/>
-                    </el-form-item>
-                    <el-form-item label="名称" prop="name">
-                        <el-input v-model="searchParam.name"/>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" @click="handleSearch">查询</el-button>
-                        <el-button @click="handleSearchReset">重置</el-button>
-                    </el-form-item>
-                </el-form>
-            </el-space>
-
-            <el-button @click="handleOnCreate">添加</el-button>
-            <el-button :disabled="selectedIds == false" @click="handleOnDeleteMultiple">删除</el-button>
-                        <el-button>导入</el-button>
-                        <el-button>导出</el-button>
+        <el-row class="mb-20px flex-between">
+            <el-form ref="searchFormRef" :model="searchParam" inline>
+                <el-form-item>
+                    <el-input v-model="searchParam.keyword" placeholder="类型或名称" clearable
+                              @clear="handleSearchReset">
+                        <template #append>
+                            <el-button :icon="Search" @click="handleSearch"/>
+                        </template>
+                    </el-input>
+                </el-form-item>
+            </el-form>
+            <div>
+                <el-button type="primary" @click="handleOnCreate">添加</el-button>
+                <el-button :disabled="deleteDisabled" @click="handleOnDeleteMultiple">删除</el-button>
+                <el-button>导入</el-button>
+                <el-button>导出</el-button>
+            </div>
         </el-row>
         <el-table
             class="mb-20px"
@@ -177,6 +202,13 @@ const handleSearchReset = async () => {
                 prop="description"
                 label="描述">
             </el-table-column>
+            <el-table-column
+                prop="enabled"
+                label="启用">
+                <template #default="scope">
+                    <el-switch v-model="scope.row.enabled" :before-change="()=>false"/>
+                </template>
+            </el-table-column>
             <el-table-column label="操作" align="center" width="160" class-name="small-padding fixed-width">
                 <template #default="scope">
                     <el-button link type="primary" icon="Edit" @click="handleOnUpdate(scope.row.id)">修改</el-button>
@@ -201,12 +233,19 @@ const handleSearchReset = async () => {
     >
         <el-form ref="formRef" :model="formParam" :rules="paramRules">
             <el-form-item label="父类型" prop="parentId">
-                <el-select v-model="formParam.parentId" clearable>
+                <el-select v-model="formParam.parentId"
+                           clearable
+                           filterable
+                           remote
+                           reserve-keyword
+                           :remote-method="handleRemoteMethod"
+                >
                     <el-option
-                        v-for="item in table.list"
+                        v-for="item in parentType.list"
                         :key="item.id"
-                        :label="item.name"
+                        :label="item.type + '-' + item.name"
                         :value="item.id">
+                        <span>{{ item.type + "-" + item.name }} ({{ item.builtin ? '系统内置' : '用户自定义' }})</span>
                     </el-option>
                 </el-select>
             </el-form-item>
@@ -218,6 +257,9 @@ const handleSearchReset = async () => {
             </el-form-item>
             <el-form-item label="描述" prop="description">
                 <el-input v-model="formParam.description" type="textarea"/>
+            </el-form-item>
+            <el-form-item label="启用" prop="enabled">
+                <el-switch v-model="formParam.enabled"/>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="handleOnSave">保存</el-button>

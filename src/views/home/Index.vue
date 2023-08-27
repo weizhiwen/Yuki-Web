@@ -1,5 +1,5 @@
 <script setup>
-import {test} from "@/api/auth";
+import {test} from "@/api/user";
 
 const message = ref(null)
 onMounted(async () => {

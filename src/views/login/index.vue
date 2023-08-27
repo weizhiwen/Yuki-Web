@@ -1,7 +1,7 @@
 <script setup>
 
 import {Lock, UserFilled} from "@element-plus/icons-vue";
-import {login} from "@/api/auth";
+import {login} from "@/api/user";
 import router from "@/router";
 
 const loading = ref(false)

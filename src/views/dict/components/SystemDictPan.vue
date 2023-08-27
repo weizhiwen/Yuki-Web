@@ -1,18 +1,20 @@
 <script setup>
 import Pagination from "@/components/pagination/Index.vue";
 import {search} from "@/api/dict";
+import {Search} from "@element-plus/icons-vue";
 
 const searchFormRef = ref(null)
 
 const searchParam = ref({
-    type: undefined,
-    name: undefined,
+    keyword: undefined,
     builtin: true,
 })
+
 const page = ref({
     page: 0,
     size: 20
 })
+
 const table = ref({
     loading: false,
     count: 0,
@@ -45,23 +47,16 @@ const handleSearchReset = () => {
 <template>
     <div>
         <el-row class="mb-20px">
-            <el-space>
-                <el-form ref="searchFormRef" :model="searchParam" inline>
-                    <el-form-item label="类型" prop="type">
-                        <el-input v-model="searchParam.type"/>
-                    </el-form-item>
-                    <el-form-item label="名称" prop="name">
-                        <el-input v-model="searchParam.name"/>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" @click="handleSearch">查询</el-button>
-                        <el-button @click="handleSearchReset">重置</el-button>
-                    </el-form-item>
-                </el-form>
-            </el-space>
-
-            <el-button>导入</el-button>
-            <el-button>导出</el-button>
+            <el-form ref="searchFormRef" :model="searchParam" inline>
+                <el-form-item>
+                    <el-input v-model="searchParam.keyword" placeholder="类型或名称" clearable
+                              @clear="handleSearchReset">
+                        <template #append>
+                            <el-button :icon="Search" @click="handleSearch"/>
+                        </template>
+                    </el-input>
+                </el-form-item>
+            </el-form>
         </el-row>
         <el-table
             class="mb-20px"
