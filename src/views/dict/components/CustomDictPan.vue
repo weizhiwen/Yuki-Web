@@ -8,6 +8,7 @@ const searchFormRef = ref(null)
 
 const searchParam = ref({
     keyword: undefined,
+    enabled: true,
     builtin: false,
 })
 
@@ -166,6 +167,9 @@ const handleRemoteMethod = (query) => {
                             <el-button :icon="Search" @click="handleSearch"/>
                         </template>
                     </el-input>
+                </el-form-item>
+                <el-form-item label="是否启用">
+                    <el-switch v-model="searchParam.enabled" @change="handleSearch"></el-switch>
                 </el-form-item>
             </el-form>
             <div>
