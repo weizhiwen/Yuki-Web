@@ -84,12 +84,14 @@ const handleOnOpen = () => {
         parentTypeData.value.loading = true
         detail(props.updateDataId).then(data => {
             formParam.value = data
-            parentTypeData.value.list = [{
-                id: data.parentId,
-                type: data.parentType,
-                name: data.parentName,
-                builtin: data.parentBuiltin,
-            }]
+            if (data.parentId) {
+                parentTypeData.value.list = [{
+                    id: data.parentId,
+                    type: data.parentType,
+                    name: data.parentName,
+                    builtin: data.parentBuiltin,
+                }]
+            }
             parentTypeData.value.loading = false
         })
     }
