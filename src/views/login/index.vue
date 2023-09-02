@@ -6,7 +6,7 @@ import router from "@/router";
 
 const loading = ref(false)
 const loginForm = ref({
-    loginName: '17639600474',
+    loginName: 'yuki',
     password: '123456',
 })
 
