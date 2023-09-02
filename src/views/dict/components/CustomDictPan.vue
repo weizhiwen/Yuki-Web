@@ -4,6 +4,7 @@ import {deleteMultiple, deleteOne, search} from "@/api/dict";
 import {ElMessage} from "element-plus";
 import {Search} from "@element-plus/icons-vue";
 import FormDrawer from "@/views/dict/components/FormDrawer.vue";
+import DictDataDrawer from "@/views/dict/components/DictDataDrawer.vue";
 
 const searchFormRef = ref(null)
 
@@ -92,6 +93,13 @@ const handleOnUpdate = (id) => {
     updateDataId.value = id
 }
 
+const dictDataDrawerRef = ref(null)
+const dictTypeName = ref('')
+const handleRowClick = (row) => {
+    dictTypeName.value = row.name
+    dictDataDrawerRef.value.isShow = true
+}
+
 </script>
 
 <template>
@@ -125,6 +133,7 @@ const handleOnUpdate = (id) => {
             v-loading="table.loading"
             :data="table.list"
             @selection-change="handleSelectionChange"
+            @row-click="handleRowClick"
         >
             <el-table-column type="selection" width="40"/>
             <el-table-column
@@ -157,8 +166,8 @@ const handleOnUpdate = (id) => {
             </el-table-column>
             <el-table-column label="操作" align="center" width="160" class-name="small-padding fixed-width">
                 <template #default="scope">
-                    <el-button link type="primary" icon="Edit" @click="handleOnUpdate(scope.row.id)">修改</el-button>
-                    <el-button link type="primary" icon="Delete" @click="handleOnDelete(scope.row.id)">删除</el-button>
+                    <el-button link type="primary" icon="Edit" @click.stop="handleOnUpdate(scope.row.id)">修改</el-button>
+                    <el-button link type="primary" icon="Delete" @click.stop="handleOnDelete(scope.row.id)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -171,6 +180,7 @@ const handleOnUpdate = (id) => {
         />
     </div>
     <FormDrawer ref="formDrawerRef" @getList="getList" :updateDataId="updateDataId"></FormDrawer>
+    <DictDataDrawer ref="dictDataDrawerRef" :dictTypeName="dictTypeName"></DictDataDrawer>
 </template>
 
 <style scoped>

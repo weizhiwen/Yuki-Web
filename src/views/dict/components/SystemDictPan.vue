@@ -2,6 +2,7 @@
 import Pagination from "@/components/pagination/Index.vue";
 import {search} from "@/api/dict";
 import {Search} from "@element-plus/icons-vue";
+import DictDataDrawer from "@/views/dict/components/DictDataDrawer.vue";
 
 const searchFormRef = ref(null)
 
@@ -42,6 +43,13 @@ const handleSearchReset = () => {
     searchFormRef.value.resetFields()
     getList();
 }
+
+const dictDataDrawerRef = ref(null)
+const dictTypeName = ref('')
+const handleRowClick = (row) => {
+    dictTypeName.value = row.name
+    dictDataDrawerRef.value.isShow = true
+}
 </script>
 
 <template>
@@ -62,6 +70,7 @@ const handleSearchReset = () => {
             class="mb-20px"
             v-loading="table.loading"
             :data="table.list"
+            @row-click="handleRowClick"
         >
             <el-table-column
                 prop="parent"
@@ -92,6 +101,7 @@ const handleSearchReset = () => {
             @pagination="getList"
         />
     </div>
+    <DictDataDrawer ref="dictDataDrawerRef" :dictTypeName="dictTypeName"></DictDataDrawer>
 </template>
 
 <style scoped>
