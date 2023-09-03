@@ -1,5 +1,5 @@
 <script setup>
-import {create, detail, search, update} from "@/api/dict";
+import {create, detail, search, update} from "@/api/dict/type";
 import {ElMessage} from "element-plus";
 
 const formRef = ref(null)
@@ -117,19 +117,21 @@ defineExpose({
     >
         <el-form ref="formRef" :model="formParam" :rules="paramRules">
             <el-form-item label="父类型" prop="parentId">
-                <el-select v-model="formParam.parentId"
+                <el-select class="w-full" v-model="formParam.parentId"
                            @clear="handleSelectClear"
                            clearable
                            filterable
                            remote
                            reserve-keyword
+                           fit-input-width
                            :remote-method="handleRemoteMethod"
+                           :disabled="updateDataId"
                            placeholder="请输入类型或名称"
                 >
                     <el-option
                         v-for="item in parentTypeData.list"
                         :key="item.id"
-                        :label="item.type + '-' + item.name + ' ' + (item.builtin ? '系统内置' : '用户自定义')"
+                        :label="`${item.type}-${item.name}（${item.builtin ? '系统内置' : '用户自定义'}）`"
                         :value="item.id">
                     </el-option>
                 </el-select>

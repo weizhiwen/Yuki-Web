@@ -1,8 +1,8 @@
 <script setup>
 import Pagination from "@/components/pagination/Index.vue";
-import {search} from "@/api/dict";
+import {search} from "@/api/dict/type";
 import {Search} from "@element-plus/icons-vue";
-import DictDataDrawer from "@/views/dict/components/DictDataDrawer.vue";
+import DictDataDrawer from "@/views/dict/components/DictDataListDrawer.vue";
 
 const searchFormRef = ref(null)
 
@@ -45,16 +45,16 @@ const handleSearchReset = () => {
 }
 
 const dictDataDrawerRef = ref(null)
-const dictTypeName = ref('')
+const dictType = ref({})
 const handleRowClick = (row) => {
-    dictTypeName.value = row.name
+    dictType.value = row
     dictDataDrawerRef.value.isShow = true
 }
 </script>
 
 <template>
     <div>
-        <el-row class="mb-20px">
+        <el-row>
             <el-form ref="searchFormRef" :model="searchParam" inline>
                 <el-form-item>
                     <el-input v-model="searchParam.keyword" placeholder="类型或名称" clearable
@@ -101,7 +101,7 @@ const handleRowClick = (row) => {
             @pagination="getList"
         />
     </div>
-    <DictDataDrawer ref="dictDataDrawerRef" :dictTypeName="dictTypeName"></DictDataDrawer>
+    <DictDataDrawer ref="dictDataDrawerRef" :dict-type="dictType"></DictDataDrawer>
 </template>
 
 <style scoped>

@@ -1,16 +1,16 @@
 <script setup>
 import Pagination from "@/components/pagination/Index.vue";
-import {deleteMultiple, deleteOne, search} from "@/api/dict";
+import {deleteMultiple, deleteOne, search} from "@/api/dict/type";
 import {ElMessage} from "element-plus";
 import {Search} from "@element-plus/icons-vue";
-import FormDrawer from "@/views/dict/components/FormDrawer.vue";
-import DictDataDrawer from "@/views/dict/components/DictDataDrawer.vue";
+import FormDrawer from "@/views/dict/components/DictTypeFormDrawer.vue";
+import DictDataDrawer from "@/views/dict/components/DictDataListDrawer.vue";
 
 const searchFormRef = ref(null)
 
 const searchParam = ref({
     keyword: undefined,
-    disabled: undefined,
+    disabled: false,
     builtin: false,
 })
 
@@ -44,7 +44,7 @@ const getList = async () => {
     })
 }
 
-const updateDataId = ref(false)
+const updateDataId = ref(null)
 
 const handleOnDelete = async (id) => {
     await deleteOne(id).then(() => {
@@ -54,7 +54,7 @@ const handleOnDelete = async (id) => {
     })
 }
 
-const onlyShowEnabled = ref(false)
+const onlyShowEnabled = ref(true)
 
 const handleSearch = async () => {
     searchParam.value.disabled = onlyShowEnabled.value ? false : undefined;
@@ -94,9 +94,9 @@ const handleOnUpdate = (id) => {
 }
 
 const dictDataDrawerRef = ref(null)
-const dictTypeName = ref('')
+const dictType = ref({})
 const handleRowClick = (row) => {
-    dictTypeName.value = row.name
+    dictType.value = row
     dictDataDrawerRef.value.isShow = true
 }
 
@@ -104,7 +104,7 @@ const handleRowClick = (row) => {
 
 <template>
     <div>
-        <el-row class="mb-20px flex-between">
+        <el-row class="flex justify-between items-top">
             <el-form ref="searchFormRef" :model="searchParam" inline>
                 <el-form-item>
                     <el-input v-model="searchParam.keyword" placeholder="类型或名称" clearable
@@ -166,8 +166,8 @@ const handleRowClick = (row) => {
             </el-table-column>
             <el-table-column label="操作" align="center" width="160" class-name="small-padding fixed-width">
                 <template #default="scope">
-                    <el-button link type="primary" icon="Edit" @click.stop="handleOnUpdate(scope.row.id)">修改</el-button>
-                    <el-button link type="primary" icon="Delete" @click.stop="handleOnDelete(scope.row.id)">删除</el-button>
+                    <el-button link type="primary" @click.stop="handleOnUpdate(scope.row.id)">修改</el-button>
+                    <el-button link type="primary" @click.stop="handleOnDelete(scope.row.id)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -180,7 +180,7 @@ const handleRowClick = (row) => {
         />
     </div>
     <FormDrawer ref="formDrawerRef" @getList="getList" :updateDataId="updateDataId"></FormDrawer>
-    <DictDataDrawer ref="dictDataDrawerRef" :dictTypeName="dictTypeName"></DictDataDrawer>
+    <DictDataDrawer ref="dictDataDrawerRef" :dict-type="dictType"></DictDataDrawer>
 </template>
 
 <style scoped>
