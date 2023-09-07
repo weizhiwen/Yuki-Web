@@ -68,3 +68,16 @@ export function enable(id) {
         })
     })
 }
+
+export function sort(ids) {
+    return new Promise((resolve, reject) => {
+        request.patch(
+            `/dict-data/sort`,
+            ids
+        ).then(data => {
+            resolve(data)
+        }).catch(error => {
+            reject(error)
+        })
+    })
+}

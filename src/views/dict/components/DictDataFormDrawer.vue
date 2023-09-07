@@ -14,12 +14,11 @@ const formRef = ref(null)
 
 const formParam = ref({
     id: null,
-    dictTypeId: props.dictType.id,
+    dictTypeId: null,
     parentCode: null,
     code: null,
     name: null,
-    memo: null,
-    idx: 0,
+    description: null,
     disabled: false
 })
 
@@ -85,16 +84,16 @@ const handleOnSave = async () => {
 
 
 const handleOnOpen = () => {
+    console.log('props dictType id ' + props.dictType.id)
+    formParam.value.dictTypeId = props.dictType.id
     if (props.updateDataId) {
         parentData.value.loading = true
         detail(props.updateDataId).then(data => {
             formParam.value = data
             if (data.parentId) {
                 parentData.value.list = [{
-                    id: data.parentId,
-                    type: data.parentType,
+                    code: data.parentCode,
                     name: data.parentName,
-                    builtin: data.parentBuiltin,
                 }]
             }
             parentData.value.loading = false

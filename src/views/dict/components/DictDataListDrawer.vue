@@ -1,7 +1,8 @@
 <script setup>
 import DictDataFormDrawer from "@/views/dict/components/DictDataFormDrawer.vue";
-import {disable, enable, listAll} from "@/api/dict/data";
+import {disable, enable, listAll, sort} from "@/api/dict/data";
 import {ElMessage} from "element-plus";
+import Sortable from 'sortablejs';
 
 const drawerRef = ref(null)
 const isShow = ref(false)
@@ -38,6 +39,23 @@ const tableList = computed(() => {
     return filterTableList()
 })
 
+
+const rowDrop = function () {
+    const tbody = document.querySelector('#draggable .el-table__body-wrapper tbody');
+    Sortable.create(tbody, {
+        //  可被拖拽的子元素
+        draggable: "#draggable .el-table__row",
+        onEnd({newIndex, oldIndex}) {
+            console.log('oldIndex', oldIndex, 'newIndex', newIndex)
+            const currRow = tableList.value.splice(oldIndex, 1)[0];
+            tableList.value.splice(newIndex, 0, currRow);
+            let ids = tableList.value.map(item=>item.id)
+            console.log('ids', ids)
+            sort(ids)
+        }
+    });
+}
+
 const updateDataId = ref(null)
 
 const table = ref({
@@ -45,9 +63,9 @@ const table = ref({
     list: [],
 })
 
-const getList = async () => {
+const getList = () => {
     table.value.loading = true
-    await listAll({"dictType.id": props.dictType.id}).then(res => {
+    listAll({"dictType.id": props.dictType.id, "sort": "idx"}).then(res => {
         table.value.list = res
         table.value.loading = false
     })
@@ -82,6 +100,7 @@ const handleOnChangeStatus = async (id, disabled) => {
 const handleOnOpen = async () => {
     await getList()
     filterTableList()
+    rowDrop()
 }
 
 const formRef = ref(null)
@@ -101,6 +120,7 @@ const handleOnClose = () => {
         size="600"
         @open="handleOnOpen"
         :before-close="handleOnClose"
+        id="draggable"
     >
         <el-row class="flex justify-between items-top">
             <el-form ref="formRef" :model="searchParam" inline>
