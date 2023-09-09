@@ -1,10 +1,9 @@
 import request from "@/utils/request";
 
-export function search(search = {}, page = {}) {
-    const params = {...page}
-    return request.post(
-        '/dict-types/search',
-        search,
+export function list(query = {}, page = {}) {
+    const params = {...query, ...page}
+    return request.get(
+        '/dict-types',
         {params}
     )
 }

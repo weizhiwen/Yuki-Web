@@ -1,6 +1,6 @@
 <script setup>
 import Pagination from "@/components/pagination/Index.vue";
-import {deleteMultiple, deleteOne, search} from "@/api/dict/type";
+import {deleteMultiple, deleteOne, list} from "@/api/dict/type";
 import {ElMessage} from "element-plus";
 import {Search} from "@element-plus/icons-vue";
 import FormDrawer from "@/views/dict/components/DictTypeFormDrawer.vue";
@@ -38,7 +38,7 @@ onMounted(async () => {
 
 const getList = async () => {
     table.value.loading = true
-    await search(searchParam.value, page.value).then(res => {
+    await list(searchParam.value, page.value).then(res => {
         table.value = res
         table.value.loading = false
     })

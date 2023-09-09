@@ -1,5 +1,5 @@
 <script setup>
-import {create, detail, search, update} from "@/api/dict/type";
+import {create, detail, list, update} from "@/api/dict/type";
 import {ElMessage} from "element-plus";
 
 const formRef = ref(null)
@@ -48,7 +48,7 @@ const parentTypeData = ref({
 })
 
 const getParentTypeList = (query) => {
-    search({
+    list({
         keyword: query,
     }).then((res) => {
         parentTypeData.value.list = res.list

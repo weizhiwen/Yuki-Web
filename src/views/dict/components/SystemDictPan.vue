@@ -1,6 +1,6 @@
 <script setup>
 import Pagination from "@/components/pagination/Index.vue";
-import {search} from "@/api/dict/type";
+import {list} from "@/api/dict/type";
 import {Search} from "@element-plus/icons-vue";
 import DictDataDrawer from "@/views/dict/components/DictDataListDrawer.vue";
 
@@ -29,7 +29,7 @@ onMounted(async () => {
 
 const getList = async () => {
     table.value.loading = true
-    await search(searchParam.value, page.value).then(res => {
+    await list(searchParam.value, page.value).then(res => {
         table.value = res
         table.value.loading = false
     })
