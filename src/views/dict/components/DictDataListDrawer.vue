@@ -3,6 +3,7 @@ import DictDataFormDrawer from "@/views/dict/components/DictDataFormDrawer.vue";
 import {disable, enable, listAll, sort} from "@/api/dict/data";
 import {ElMessage} from "element-plus";
 import Sortable from 'sortablejs';
+import {PhList} from "@phosphor-icons/vue";
 
 const drawerRef = ref(null)
 const isShow = ref(false)
@@ -19,12 +20,6 @@ const searchParam = ref({
     searchKeyword: '',
     onlyShowEnabled: true,
 })
-
-const handleSearch = () => {
-}
-
-const handleOnKeywordClear = () => {
-}
 
 const filterTableList = () => {
     const {searchKeyword, onlyShowEnabled} = searchParam.value
@@ -44,13 +39,12 @@ const rowDrop = function () {
     const tbody = document.querySelector('#draggable .el-table__body-wrapper tbody');
     Sortable.create(tbody, {
         //  可被拖拽的子元素
-        draggable: "#draggable .el-table__row",
+        draggable: "#draggable .el-table__body .el-table__row",
+        handle: '.draggable-element',
         onEnd({newIndex, oldIndex}) {
-            console.log('oldIndex', oldIndex, 'newIndex', newIndex)
             const currRow = tableList.value.splice(oldIndex, 1)[0];
             tableList.value.splice(newIndex, 0, currRow);
             let ids = tableList.value.map(item=>item.id)
-            console.log('ids', ids)
             sort(ids)
         }
     });
@@ -65,7 +59,7 @@ const table = ref({
 
 const getList = () => {
     table.value.loading = true
-    listAll({"dictType.id": props.dictType.id, "sort": "idx"}).then(res => {
+    listAll({"dictType.id": props.dictType.id, "sort": "idx,asc"}).then(res => {
         table.value.list = res
         table.value.loading = false
     })
@@ -108,6 +102,7 @@ const formRef = ref(null)
 const handleOnClose = () => {
     formRef.value.resetFields()
     isShow.value = false
+    table.value.list = []
 }
 
 </script>
@@ -120,7 +115,6 @@ const handleOnClose = () => {
         size="600"
         @open="handleOnOpen"
         :before-close="handleOnClose"
-        id="draggable"
     >
         <el-row class="flex justify-between items-top">
             <el-form ref="formRef" :model="searchParam" inline>
@@ -143,9 +137,20 @@ const handleOnClose = () => {
             <el-button type="primary" @click="handleOnCreate">添加</el-button>
         </el-row>
         <el-table
+            id="draggable"
             v-loading="table.loading"
             :data="tableList"
         >
+            <el-table-column width="50">
+                <template #header>
+                    <el-tooltip content="拖拽下方图标排序" placement="top">
+                        <el-icon/>
+                    </el-tooltip>
+                </template>
+                <el-icon class="vertical-mid draggable-element cursor-move" :size="18">
+                    <ph-list :size="18"/>
+                </el-icon>
+            </el-table-column>
             <el-table-column v-if="dictType.parentId" prop="parentName" label="父类型"/>
             <el-table-column prop="code" label="编码"/>
             <el-table-column prop="name" label="名称"/>
