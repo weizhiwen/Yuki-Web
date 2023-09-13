@@ -7,6 +7,25 @@ export function listAll(query = {}) {
     )
 }
 
+export function listAllByDictType(type, query = {}) {
+    if (!query['dictType.type']) {
+        query['dictType.type'] = type
+    }
+    if (query['sort']) {
+        query["sort"] = "idx,asc"
+    }
+    return new Promise((resolve, reject) => {
+        request.get(
+            '/dict-data/all',
+            {params: query}
+        ).then(data => {
+            resolve(data)
+        }).catch(error => {
+            reject(error)
+        })
+    })
+}
+
 export function create(param) {
     return new Promise((resolve, reject) => {
         request.post(

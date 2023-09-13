@@ -1,6 +1,6 @@
 <script setup>
 import Pagination from "@/components/pagination/Index.vue";
-import {deleteMultiple, deleteOne, list} from "@/api/dict/type";
+import {remove, list} from "@/api/dict/type";
 import {ElMessage} from "element-plus";
 import {Search} from "@element-plus/icons-vue";
 import FormDrawer from "@/views/dict/components/DictTypeFormDrawer.vue";
@@ -47,7 +47,7 @@ const getList = async () => {
 const updateDataId = ref(null)
 
 const handleOnDelete = async (id) => {
-    await deleteOne(id).then(() => {
+    await remove([id]).then(() => {
         ElMessage({message: "删除成功", type: 'success'})
     }).finally(() => {
         getList()
@@ -69,7 +69,7 @@ const handleSelectionChange = (array) => {
 }
 
 const handleOnDeleteMultiple = async () => {
-    await deleteMultiple(selectedIds.value).then(() => {
+    await remove(selectedIds.value).then(() => {
         ElMessage({message: "删除成功", type: 'success'})
     }).finally(() => {
         getList()

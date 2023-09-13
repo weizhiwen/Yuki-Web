@@ -1,9 +1,10 @@
 import request from "@/utils/request";
 
-export function list(query = {}, page = {}) {
-    const params = {...query, ...page}
-    return request.get(
-        '/dict-types',
+export function search(search = {}, page = {}) {
+    const params = {...page}
+    return request.post(
+        '/positions/search',
+        search,
         {params}
     )
 }
@@ -11,7 +12,7 @@ export function list(query = {}, page = {}) {
 export function create(param) {
     return new Promise((resolve, reject) => {
         request.post(
-            '/dict-types',
+            '/positions',
             param,
         ).then(data => {
             resolve()
@@ -24,7 +25,7 @@ export function create(param) {
 export function update(id, param) {
     return new Promise((resolve, reject) => {
         request.put(
-            `/dict-types/${id}`,
+            `/positions/${id}`,
             param,
         ).then(data => {
             resolve()
@@ -37,9 +38,21 @@ export function update(id, param) {
 export function detail(id) {
     return new Promise((resolve, reject) => {
         request.get(
-            `/dict-types/${id}`,
+            `/positions/${id}`,
         ).then(data => {
             resolve(data)
+        }).catch(error => {
+            reject(error)
+        })
+    })
+}
+
+export function deleteOne(id) {
+    return new Promise((resolve, reject) => {
+        request.delete(
+            `/positions/${id}`,
+        ).then(data => {
+            resolve()
         }).catch(error => {
             reject(error)
         })
@@ -49,7 +62,7 @@ export function detail(id) {
 export function remove(ids) {
     return new Promise((resolve, reject) => {
         request.delete(
-            `/dict-types/${ids.join(',')}`,
+            `/positions/${ids.join(',')}`,
         ).then(data => {
             resolve()
         }).catch(error => {

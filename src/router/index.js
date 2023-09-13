@@ -18,6 +18,10 @@ export const constantRouters = [
             {
                 path: "dict",
                 component: () => import("@/views/dict/Index.vue"),
+            },
+            {
+                path: "position",
+                component: () => import("@/views/position/Index.vue"),
             }
         ]
     },
