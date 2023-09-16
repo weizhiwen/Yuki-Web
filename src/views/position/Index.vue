@@ -3,6 +3,7 @@
 import {remove, search} from "@/api/position";
 import {ElMessage} from "element-plus";
 import FormDrawer from "./components/PositionFormDrawer.vue";
+import DetailDrawer from "./components/PositionDetailDrawer.vue";
 
 const searchParam = ref({
     departmentId: undefined,
@@ -16,6 +17,10 @@ const searchParam = ref({
 const page = ref({
     page: 0,
     size: 20
+})
+
+onMounted(() => {
+    getList()
 })
 
 const handleSearchReset = () => {
@@ -65,7 +70,11 @@ const table = ref({
 
 const formDrawerRef = ref(null)
 
+const detailDrawerRef = ref(null)
+
 const updateDataId = ref(null)
+
+const dataId = ref(null)
 
 const handleSelectionChange = (array) => {
     selectedIds.value = []
@@ -75,15 +84,21 @@ const handleSelectionChange = (array) => {
 }
 
 const handleRowClick = (row) => {
+    detailDrawerRef.value.isShow = true
+    dataId.value = row.id
 }
 
-const handleOnUpdate = (row) => {
+const handleOnUpdate = (id) => {
     formDrawerRef.value.isShow = true
     updateDataId.value = id
 }
 
-const handleOnDelete = (row) => {
-
+const handleOnDelete = async (id) => {
+    await remove([id]).then(() => {
+        ElMessage({message: "删除成功", type: 'success'})
+    }).finally(() => {
+        getList()
+    })
 }
 </script>
 
@@ -126,7 +141,6 @@ const handleOnDelete = (row) => {
                     <el-button :disabled="deleteDisabled" @click="handleOnDeleteMultiple">删除</el-button>
                     <el-button>导入</el-button>
                     <el-button>导出</el-button>
-                    <el-button @click="getList">刷新</el-button>
                 </el-row>
                 <el-table
                     class="mb-20px"
@@ -141,7 +155,7 @@ const handleOnDelete = (row) => {
                     <el-table-column prop="name" label="名称"/>
                     <el-table-column prop="property" label="性质">
                         <template #default="scope">
-                            {{scope.row.property?.name}}
+                            {{ scope.row.property?.name }}
                         </template>
                     </el-table-column>
                     <el-table-column show-overflow-tooltip prop="description" label="描述"/>
@@ -169,7 +183,8 @@ const handleOnDelete = (row) => {
             </el-main>
         </el-container>
     </div>
-    <FormDrawer ref="formDrawerRef" @getList="getList" :updateDataId="updateDataId"></FormDrawer>
+    <FormDrawer ref="formDrawerRef" @getList="getList" :update-data-id="updateDataId"/>
+    <DetailDrawer ref="detailDrawerRef" :data-id="dataId"/>
 </template>
 
 <style scoped>

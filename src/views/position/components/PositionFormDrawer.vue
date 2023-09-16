@@ -54,11 +54,14 @@ const handleOnSave = async () => {
 }
 
 const departmentHierarchy = ref([])
+const departmentDefaultExpand = ref([])
 
 const getHierarchy = async () => {
     const res = await hierarchy()
+    res['children'].forEach(item => {
+        departmentDefaultExpand.value.push(item.id)
+    })
     departmentHierarchy.value = [res]
-    console.log(departmentHierarchy.value)
 }
 
 const propertyList = ref({
@@ -107,13 +110,13 @@ defineExpose({
     <el-drawer
         ref="drawerRef"
         v-model="isShow"
-        :before-close="handleDrawerClose"
+        destroy-on-close
         @open="handleOnOpen"
         :title="updateDataId ? '修改岗位' : '添加岗位'"
         size="50%"
     >
         <el-form ref="formRef" :model="formParam" :rules="paramRules">
-            <el-form-item label="部门" prop="code">
+            <el-form-item label="部门" prop="departmentId">
                 <el-tree-select class="w-full"
                                 v-model="formParam.departmentId"
                                 :data="departmentHierarchy"
@@ -122,6 +125,7 @@ defineExpose({
                                 node-key="id"
                                 placeholder="请选择部门"
                                 clearable
+                                :default-expanded-keys="departmentDefaultExpand"
                                 :render-after-expand="false"
                                 show-checkbox
                                 check-strictly
@@ -147,7 +151,7 @@ defineExpose({
                 </el-select>
             </el-form-item>
             <el-form-item label="描述" prop="description">
-                <el-input v-model="formParam.description" type="textarea"/>
+                <el-input v-model="formParam.description" autosize type="textarea" maxlength="255" show-word-limit/>
             </el-form-item>
             <el-form-item prop="disabled">
                 <el-switch :model-value="!formParam.disabled" inline-prompt active-text="启用" inactive-text="禁用"
